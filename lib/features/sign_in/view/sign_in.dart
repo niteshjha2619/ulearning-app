@@ -5,94 +5,96 @@ import 'package:ulearning_app/common/global_loader/global_loader.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/widgets/button_widgets.dart';
 import 'package:ulearning_app/common/widgets/text_widgets.dart';
-import 'package:ulearning_app/pages/sign_up/notifier/register_notifier.dart';
-import 'package:ulearning_app/pages/sign_up/signup_controller.dart';
+import 'package:ulearning_app/features/sign_in/notifier/sign_in_notifier.dart';
+import 'package:ulearning_app/features/sign_in/widgets/sing_in_widgets.dart';
+import '../../common/utils/image_res.dart';
 import '../../common/widgets/app_bar.dart';
 import '../../common/widgets/app_textfields.dart';
+import '../sign_up/sign_up.dart';
+import 'Sign_in_Controller.dart';
 
-class SignUp extends ConsumerWidget {
+class SignIn extends ConsumerStatefulWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final regProvider = ref.watch(registerNotifierProvider);
+  ConsumerState<SignIn> createState() => _SignInState();
+}
+
+class _SignInState extends ConsumerState<SignIn> {
+  late SignInController _controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _controller = SignInController(ref);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final signInProvider = ref.watch(SigninNotifierProvider);
     final loader = ref.watch(apploaderProvider);
     return Container(
       color: Colors.white,
       child: SafeArea(
           child: Scaffold(
-        appBar: buildAppBar(title: "Sign Up"),
+        appBar: buildAppBar(title: "Login"),
         backgroundColor: Colors.white,
         body: loader == false
             ? SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 35,
-                    ),
+                    thirdPart(),
                     Center(
                         child: text14Normal(
-                            text: "Enter your details below & free sign up")),
+                            text: "Or use your email account to login")),
                     const SizedBox(
-                      height: 60,
+                      height: 40,
                     ),
                     appTextField(
-                        text: "User name",
-                        iconName: "assets/icons/user.png",
-                        hintText: "Enter your user name",
-                        func: (value) => ref
-                            .read(registerNotifierProvider.notifier)
-                            .onChangeUsername(value)),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    appTextField(
+                        controller: _controller.emailController,
                         text: "Email",
-                        iconName: "assets/icons/user.png",
+                        iconName: ImageRes.user,
                         hintText: "Enter your Email address",
                         func: (value) => ref
-                            .read(registerNotifierProvider.notifier)
+                            .read(SigninNotifierProvider.notifier)
                             .onEmailChange(value)),
                     const SizedBox(
                       height: 20,
                     ),
                     appTextField(
+                        controller: _controller.passwordController,
                         text: "Password",
-                        iconName: "assets/icons/lock.png",
-                        hintText: "Enter your Password",
+                        iconName: ImageRes.lock,
+                        hintText: "Enter your password",
                         obscureText: true,
                         func: (value) => ref
-                            .read(registerNotifierProvider.notifier)
-                            .onpasswordChange(value)),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    appTextField(
-                        text: "Confirm Password",
-                        iconName: "assets/icons/lock.png",
-                        hintText: "Enter your Confirm Password",
-                        obscureText: true,
-                        func: (value) => ref
-                            .read(registerNotifierProvider.notifier)
-                            .onConfirmPasswordChange(value)),
+                            .read(SigninNotifierProvider.notifier)
+                            .onPasswordChange(value)),
                     const SizedBox(
                       height: 20,
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 25, right: 25),
-                      child: text14Normal(
-                          text:
-                              "By creating an account you are agreeing with our terms and conditions"),
+                      child: textUnderLine(text: "Forgot Password?"),
                     ),
                     const SizedBox(
                       height: 100,
                     ),
                     Center(
                         child: appButton(
+                            text: "Login",
+                            func: () => _controller.handleSignIn())),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                        child: appButton(
                             text: "Register",
-                            isLogin: true,
+                            isLogin: false,
                             context: context,
-                            func: () =>
-                                SignUpController(ref: ref).handleSignUp()))
+                            func: () {
+                              Navigator.pushNamed(context, "/register");
+                            }))
                   ],
                 ),
               )

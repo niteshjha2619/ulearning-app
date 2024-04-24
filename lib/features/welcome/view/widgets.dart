@@ -1,8 +1,12 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/utils/app_shadow.dart';
-import 'package:ulearning_app/pages/sign_in/sign_in.dart';
+import 'package:ulearning_app/common/utils/constants.dart';
+import 'package:ulearning_app/global.dart';
+import 'package:ulearning_app/features/sign_in/view/sign_in.dart';
 
 import '../../common/widgets/text_widgets.dart';
 
@@ -11,6 +15,9 @@ Widget appOnBoardingPage(PageController controller, BuildContext context,
     String title = "",
     String subTitle = "",
     index = 0}) {
+  if (kDebugMode) {
+    print(index);
+  }
   return SingleChildScrollView(
     child: Column(
       children: [
@@ -25,6 +32,18 @@ Widget appOnBoardingPage(PageController controller, BuildContext context,
           child: text16Normal(text: subTitle),
         ),
         _nextButton(index, controller, context),
+        const SizedBox(height: 20,),
+
+        DotsIndicator(
+          mainAxisAlignment: MainAxisAlignment.center,
+          dotsCount: 3,
+          position: index,
+          decorator: DotsDecorator(
+              size: const Size.square(9.0),
+              activeSize: const Size(22.0, 8.0),
+              activeShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0))),
+        ),
         const SizedBox(height: 20,)
         //Image.asset("assets/images/boy.png")
       ],
@@ -35,12 +54,12 @@ Widget appOnBoardingPage(PageController controller, BuildContext context,
 Widget _nextButton(int index, PageController controller, BuildContext context) {
   return GestureDetector(
     onTap: () {
-      if (index < 3) {
+      if (index < 2) {
         controller.animateToPage(index,
             duration: const Duration(milliseconds: 300), curve: Curves.linear);
       } else {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignIn()));
+        Global.storageServices.setBool(AppConstants.STORAGE_DEVICE_OPEN_FIRST_KEY, true);
+        Navigator.pushNamed(context, "/sign_in");
       }
     },
     child: Container(
@@ -50,7 +69,7 @@ Widget _nextButton(int index, PageController controller, BuildContext context) {
       decoration: appBoxShadow(),
       child: Center(
           child: text16Normal(
-              text: index < 3 ? "Next" : "Get Started",
+              text: index < 2 ? "Next" : "Get Started",
               color: AppColors.primaryBackground)),
     ),
   );

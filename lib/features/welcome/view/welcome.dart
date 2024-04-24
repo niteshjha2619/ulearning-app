@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/pages/welcome/widgets.dart';
+import 'package:ulearning_app/features/welcome/widgets.dart';
 
 import 'notifier/welcome_notifier.dart';
 
@@ -37,13 +37,13 @@ class Welcome extends ConsumerWidget {
                         title: "First see Learning",
                         subTitle:
                             "Forget about of paper, now learning all in one place",
-                        index: 1),
+                        index: 0),
                     appOnBoardingPage(_controller, context,
                         imagePath: "assets/images/man.png",
                         title: "Connect With Everyone",
                         subTitle:
                             "Always keep in touch with your tutor and friends, Let's get conected !!",
-                        index: 2),
+                        index: 1),
                     appOnBoardingPage(
                       _controller,
                       context,
@@ -51,22 +51,9 @@ class Welcome extends ConsumerWidget {
                       title: "Always Fascinated",
                       subTitle:
                           "Anywhere. Anytime. The time is at your direction. so study wherever you can",
-                      index: 3,
+                      index: 2,
                     )
                   ],
-                ),
-                Positioned(
-                  bottom: 10,
-                  child: DotsIndicator(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    dotsCount: 3,
-                    position: index,
-                    decorator: DotsDecorator(
-                        size: Size.square(9.0),
-                        activeSize: Size(22.0, 8.0),
-                        activeShape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0))),
-                  ),
                 ),
               ],
             ),
