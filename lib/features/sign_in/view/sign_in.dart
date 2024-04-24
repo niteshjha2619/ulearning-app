@@ -5,13 +5,12 @@ import 'package:ulearning_app/common/global_loader/global_loader.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/widgets/button_widgets.dart';
 import 'package:ulearning_app/common/widgets/text_widgets.dart';
-import 'package:ulearning_app/features/sign_in/notifier/sign_in_notifier.dart';
-import 'package:ulearning_app/features/sign_in/widgets/sing_in_widgets.dart';
-import '../../common/utils/image_res.dart';
-import '../../common/widgets/app_bar.dart';
-import '../../common/widgets/app_textfields.dart';
-import '../sign_up/sign_up.dart';
-import 'Sign_in_Controller.dart';
+import 'package:ulearning_app/features/sign_in/view/widgets/sing_in_widgets.dart';
+import 'package:ulearning_app/features/sign_in/provider/notifier/sign_in_notifier.dart';
+import '../../../common/utils/image_res.dart';
+import '../../../common/widgets/app_bar.dart';
+import '../../../common/widgets/app_textfields.dart';
+import '../controller/Sign_in_Controller.dart';
 
 class SignIn extends ConsumerStatefulWidget {
   @override
@@ -22,10 +21,12 @@ class _SignInState extends ConsumerState<SignIn> {
   late SignInController _controller;
 
   @override
-  void initState() {
+  void didChangeDependencies() {
     // TODO: implement initState
-    _controller = SignInController(ref);
-    super.initState();
+    //Future.delayed(Duration(seconds: 0), () {
+      _controller = SignInController();
+   // });
+    super.didChangeDependencies();
   }
 
   @override
@@ -44,8 +45,8 @@ class _SignInState extends ConsumerState<SignIn> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     thirdPart(),
-                    Center(
-                        child: text14Normal(
+                    const Center(
+                        child: Text14Normal(
                             text: "Or use your email account to login")),
                     const SizedBox(
                       height: 40,
@@ -83,7 +84,7 @@ class _SignInState extends ConsumerState<SignIn> {
                     Center(
                         child: appButton(
                             text: "Login",
-                            func: () => _controller.handleSignIn())),
+                            func: () => _controller.handleSignIn(ref))),
                     const SizedBox(
                       height: 20,
                     ),

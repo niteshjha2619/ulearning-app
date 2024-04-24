@@ -6,10 +6,10 @@ import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/utils/image_res.dart';
 import 'package:ulearning_app/common/widgets/button_widgets.dart';
 import 'package:ulearning_app/common/widgets/text_widgets.dart';
-import 'package:ulearning_app/features/sign_up/notifier/register_notifier.dart';
-import 'package:ulearning_app/features/sign_up/signup_controller.dart';
-import '../../common/widgets/app_bar.dart';
-import '../../common/widgets/app_textfields.dart';
+import 'package:ulearning_app/features/sign_up/provider/notifier/register_notifier.dart';
+import 'package:ulearning_app/features/sign_up/controller/signup_controller.dart';
+import '../../../common/widgets/app_bar.dart';
+import '../../../common/widgets/app_textfields.dart';
 
 class SignUp extends ConsumerWidget {
   @override
@@ -30,8 +30,8 @@ class SignUp extends ConsumerWidget {
                     const SizedBox(
                       height: 35,
                     ),
-                    Center(
-                        child: text14Normal(
+                    const Center(
+                        child: Text14Normal(
                             text: "Enter your details below & free sign up")),
                     const SizedBox(
                       height: 60,
@@ -80,7 +80,7 @@ class SignUp extends ConsumerWidget {
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 25, right: 25),
-                      child: text14Normal(
+                      child: const Text14Normal(
                           text:
                               "By creating an account you are agreeing with our terms and conditions"),
                     ),

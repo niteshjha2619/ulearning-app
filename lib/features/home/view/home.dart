@@ -1,16 +1,30 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/utils/constants.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ulearning_app/common/widgets/app_bar.dart';
-import 'package:ulearning_app/common/widgets/text_widgets.dart';
-import 'package:ulearning_app/global.dart';
+import 'package:ulearning_app/common/widgets/search_widgets.dart';
+import 'package:ulearning_app/features/home/controller/home_controller.dart';
+import 'package:ulearning_app/features/home/view/widgets/home_widget.dart';
 
-class Home extends StatelessWidget {
+class Home extends ConsumerStatefulWidget {
+  @override
+  ConsumerState<Home> createState() => _HomeState();
+}
+
+class _HomeState extends ConsumerState<Home> {
+  late PageController _controller;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    _controller = PageController(initialPage: ref.watch(homeScreenBannerDotsProvider));
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(title: "Home"),
+      backgroundColor: Colors.white,
+      appBar: homeAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: SingleChildScrollView(
@@ -18,17 +32,14 @@ class Home extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                child: text24Normal(
-                    text: "Hello,",
-                    color: AppColors.primaryThreeElementText,
-                    fontWeight: FontWeight.bold),
-              ),
-              Container(
-                child: text24Normal(
-                    text: Global.storageServices.getString(AppConstants.STORAGE_USER_PROFILE_KEY),
-                    fontWeight: FontWeight.bold),
-              )
+              const SizedBox(height: 20,),
+              const HelloText(),
+              const UserName(),
+              const SizedBox(height: 20,),
+              searchBar(),
+              const SizedBox(height: 20,),
+              HomeBanner(controller: _controller, ref: ref),
+              HomeMenuBar()
             ],
           ),
         ),

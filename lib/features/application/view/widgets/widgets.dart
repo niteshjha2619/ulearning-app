@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/utils/image_res.dart';
 import 'package:ulearning_app/common/widgets/image_widgets.dart';
+import 'package:ulearning_app/features/home/view/home.dart';
 
 var bottomBars = <BottomNavigationBarItem>[
   BottomNavigationBarItem(
@@ -53,7 +54,7 @@ Widget _bottomBarContainer(
 
 Widget appScreen({int index = 0}) {
   List<Widget> screens = [
-    Center(child: appImage(width: 250, height: 250),),
+    Home(),
     Center(child: appImage(iconPath: ImageRes.search),),
     Center(child: appImage(iconPath: ImageRes.play),),
     Center(child: appImage(iconPath: ImageRes.message),),

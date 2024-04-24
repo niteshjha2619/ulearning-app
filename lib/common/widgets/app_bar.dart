@@ -6,7 +6,7 @@ AppBar buildAppBar({String title = ""}) {
   return AppBar(
     // backgroundColor: Colors.white,
       title: Center(
-          child: text16Normal(text: title, color: AppColors.primaryText)),
+          child: Text16Normal(text: title, color: AppColors.primaryText)),
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1),
         child: Container(

@@ -6,21 +6,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ulearning_app/common/global_loader/global_loader.dart';
 import 'package:ulearning_app/common/utils/constants.dart';
 import 'package:ulearning_app/common/widgets/popup_messages.dart';
+import 'package:ulearning_app/features/sign_in/repo/signin_in_repo.dart';
 import 'package:ulearning_app/global.dart';
-import 'package:ulearning_app/features/application/application.dart';
+import 'package:ulearning_app/main.dart';
 
-import 'notifier/sign_in_notifier.dart';
-import 'notifier/user.dart';
+import '../../../common/models/user.dart';
+import '../provider/notifier/sign_in_notifier.dart';
 
 class SignInController {
-  WidgetRef ref;
 
-  SignInController(this.ref);
+  SignInController();
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  Future<void> handleSignIn() async {
+  Future<void> handleSignIn(WidgetRef ref) async {
     var state = ref.read(SigninNotifierProvider);
     String email = state.email;
     String password = state.password;
@@ -39,8 +39,8 @@ class SignInController {
 
     ref.read(apploaderProvider.notifier).setLoaderValue(true);
     try {
-      final credentials = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      final credentials = await SignInRepo.firebaseSignIn(email, password);
+
       if (credentials.user == null) {
         toastInfo("User not found");
         return;
@@ -89,13 +89,13 @@ class SignInController {
 
   void asyncPostAllData(LoginRequestEntity loginRequestEntity) {
     try {
-      var navigator = Navigator.of(ref.context);
+      //var navigator = Navigator.of(ref.context);
       Global.storageServices
-          .setString(AppConstants.STORAGE_USER_PROFILE_KEY, "123");
+          .setString(AppConstants.STORAGE_USER_PROFILE_KEY, loginRequestEntity.name ?? "");
       Global.storageServices
           .setString(AppConstants.STORAGE_USER_TOKEN_KEY, "12134");
 
-      navigator.pushNamedAndRemoveUntil("/application", (route) => false);
+      navKey.currentState?.pushNamedAndRemoveUntil("/application", (route) => false);
     } catch (e) {
       if (kDebugMode) {
         toastInfo(e.toString());
