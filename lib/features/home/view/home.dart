@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ulearning_app/common/widgets/app_bar.dart';
+import 'package:ulearning_app/common/widgets/image_widgets.dart';
 import 'package:ulearning_app/common/widgets/search_widgets.dart';
 import 'package:ulearning_app/features/home/controller/home_controller.dart';
 import 'package:ulearning_app/features/home/view/widgets/home_widget.dart';
@@ -16,7 +17,8 @@ class _HomeState extends ConsumerState<Home> {
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
-    _controller = PageController(initialPage: ref.watch(homeScreenBannerDotsProvider));
+    _controller =
+        PageController(initialPage: ref.watch(homeScreenBannerDotsProvider));
     super.didChangeDependencies();
   }
 
@@ -32,14 +34,21 @@ class _HomeState extends ConsumerState<Home> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               const HelloText(),
               const UserName(),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               searchBar(),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               HomeBanner(controller: _controller, ref: ref),
-              HomeMenuBar()
+              const HomeMenuBar(),
+              CourseItemGrid()
             ],
           ),
         ),
